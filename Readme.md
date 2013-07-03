@@ -1,0 +1,1 @@
+This project covers the OnlineShopping solution being created by Developers at Drishticon Inc. The solution currently focuses on a e-commerce application to send gifts to other countries like India. 
