@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Login</title>
+<script src="gen_validatorv4.js" type="text/javascript"></script>
+<script src="http://code.jquery.com/jquery-2.0.3.js"> </script>
+<script>
+$(document).ready(function () {
+	var field = 'result';
+	var url = window.location.href;
+	if(url.indexOf('?' + field + '=') != -1)
+		$("#msg").append('<p> Invalid email and/or password. Please Login Again </p>');
+	if(url.indexOf('?reset=true') != -1)
+		$("#msg").append('<p> A mail with temporary password has been sent. Please check your mail and login </p>');
+});
+</script>
+</head>
+<body>
+   
+<div id="fb-root"></div>
+<script>
+
+// Load the SDK asynchronously
+(function(d){
+   var js, id = 'facebook-jssdk', ref = d.getElementsByTagName('script')[0];
+   if (d.getElementById(id)) {return;}
+   js = d.createElement('script'); js.id = id; js.async = true;
+   js.src = "//connect.facebook.net/en_US/all.js";
+   ref.parentNode.insertBefore(js, ref);
+ }(document));
+
+//Additional JS functions here
+window.fbAsyncInit = function() {
+  FB.init({
+    appId      : '174758446037730', // App ID
+    channelUrl : 'http://localhost:8080/EcommerceApp/channel.html', // Channel File
+    status     : true, // check login status
+    cookie     : true, // enable cookies to allow the server to access the session
+    xfbml      : true  // parse XFBML
+  });
+
+    // Additional init code here
+
+  // listen for and handle auth.statusChange events
+  FB.Event.subscribe('auth.statusChange', function(response) {
+    if (response.authResponse) {
+      // user has auth'd your app and is logged into Facebook
+      FB.api('/me', function(me){
+    	  
+        if (me.email) {
+          document.getElementById('auth-displayname').innerHTML = me.email;
+        }
+       	
+        document.getElementById('auth-id').innerHTML = me.id;               
+		var id = document.getElementById('auth-id').value;
+	    var mydiv = document.getElementById("auth-displayid");
+	    var aTag = document.createElement('a');
+	   	var userid = me.id;
+	   	var link = "Welcome.html";
+	    aTag.setAttribute('href',link);
+	    aTag.innerHTML = "";
+	    mydiv.appendChild(aTag);	
+       
+      })
+      document.getElementById('auth-loggedout').style.display = 'none';
+      document.getElementById('auth-loggedin').style.display = 'block';
+      document.getElementById('auth-displayid').style.display = 'block';
+    } else {
+      // user has not auth'd your app, or is not logged into Facebook
+      document.getElementById('auth-loggedout').style.display = 'block';
+      document.getElementById('auth-loggedin').style.display = 'none';
+      document.getElementById('auth-displayid').style.display = 'none';
+    }
+  });
+  // respond to clicks on the login and logout links
+
+  document.getElementById('auth-loginlink').addEventListener('click', function(){
+	  
+    FB.login();
+   
+  });
+  document.getElementById('auth-logoutlink').addEventListener('click', function(){
+	 
+	  FB.logout();     	  
+  }); 
+}
+
+
+</script> 
+<div>
+	<div style="width: 50%; float:left">
+	<br>
+		<div align="center" id="auth-status">
+   			<div id="auth-loggedout">
+   				<fb:login-button> 
+  				<a id="auth-loginlink">Login</a>   
+   				</fb:login-button>
+  			</div>
+     
+			<div id="auth-loggedin" style="display:none">
+  			Hi, <span id="auth-displayname"></span> <br> 
+  			(<a href="#" id="auth-logoutlink">Logout from app and Facebook</a>)
+			</div>
+			<br>
+
+			<div id="auth-displayid"> </div>
+			<div id="auth-id"> </div>
+
+			<br>
+			<iframe src="http://www.facebook.com/plugins/like.php?href=http://www.facebook.com/kukuscornermumbai"
+			scrolling="no" frameborder="0" style="border:none; width:450px; height:80px"></iframe>
+		</div>
+	</div>
+	
+	<div style="width: 50%; float:right; align:center">
+ 
+	<h4> OR Login with Kukus Corner </h4>
+
+	<div id="msg" style="color:red; align:center"></div>
+	
+	<form id="form1" action="REST/login" method="post">
+	<table>
+	<tr><td>Email Address: </td><td><input name="email" type="text" style="width: 200px;"></td></tr> 
+	<tr><td> Password: </td><td><input name="password" type="password" style="width: 200px;"></td></tr>
+	</table>
+	<br>
+	<input type="submit" value="Submit"><br><br>
+ 	</form>
+ 	<a href="Register.html">New Users Register here</a>
+ 	<br> <br>
+ 	<a href="ResetPassword.html">Forgot Password ?</a>
+ 	</div>
+ 	<br style="clear:both;"/>
+	</div>
+	<script type="text/javascript">
+	 var frmvalidator = new Validator("form1");
+	 frmvalidator.addValidation("password","req", "Please enter password");
+	 frmvalidator.addValidation("email","req","Please enter valid email id");
+	 frmvalidator.addValidation("email","email","Please enter valid email id");
+	 frmvalidator.addValidation("password","minlen=4","Please enter password with minimum 4 characters");
+	 frmvalidator.EnableMsgsTogether();
+	</script>
+
+</body>
+</html>
+

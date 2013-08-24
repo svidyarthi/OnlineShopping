@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>My Profile</title>
+<script src="http://code.jquery.com/jquery-2.0.3.js"> </script>
+<script type="text/javascript">
+ var RecaptchaOptions = {
+    theme : 'clean'
+ };
+ </script>
+<script>	  
+$(document).ready(function () {
+		
+	var url = window.location.href;
+	var email = url.split('email=')[1].split("&")[0];
+	$("#email").val(email);
+	
+	var result = url.split('&result=')[1];
+	if(result == "true"){
+		$("#message").html("<h4> Profile updated successfully </h4>");
+	}
+	else if (result == "false"){
+		$("#message").html("<h4> Error in updating profile. Try again </h4>");
+	}	
+		
+	    $.ajax({
+	        type: "GET",
+	        url: "/EcommerceApp/REST/profile/"+email,
+	        dataType: "xml",
+	        success: function(xml) {  
+	        	
+	        	$(xml).find('user').each(function(i){
+	        		var fname = $(this).find('fname').text();    		            
+	                $("#fname").val(fname); 
+	                var lname = $(this).find('lname').text();    		            
+	                $("#lname").val(lname); 
+	        		var add1 = $(this).find('address1').text();    		            
+	                $("#add1").val(add1); 
+	                var add2 = $(this).find('address2').text();    		            
+	                $("#add2").val(add2); 
+	                var city = $(this).find('city').text();    		            
+	                $("#city").val(city); 
+	                var state = $(this).find('state').text();    		            
+	                $("#state").val(state); 
+	                var country = $(this).find('country').text();    		            
+	                $("#country").val(country); 
+	                var zip = $(this).find('zip').text();    		            
+	                $("#zip").val(zip); 
+	                var con_num = $(this).find('contact_num').text();    		            
+	                $("#con_num").val(con_num); 
+	        	});        		
+	        }   
+	    }); 
+	});
+</script>
+</head>
+<body>
+<div id="div" align="center"><a href="Welcome.html">Products Catalog</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<a href="MyProfile.html">My Profile</a>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<a href="Orders.html">My Orders</a>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<a href="LoginForm.html">Logout</a><br>
+<h3>My Profile</h3>
+</div>
+
+
+<form id="form1" action="REST/updateProfile" method="post" >
+<div id="message" style="color:red; text-align:center"></div>
+<table align="center">
+<tr><td> Email Address: </td> <td><input id="email" name="email" type="text" readonly>*</td></tr>
+<tr><td> First Name: </td> <td><input id="fname" name="fname" type="text">*</td></tr>
+<tr><td> Last Name: </td> <td><input id="lname" name="lname" type="text">*</td></tr>
+<tr><td> Address (Line1): </td> <td><input id="add1" name="add1" type="text">*</td></tr>
+<tr><td> Address (Line2): </td> <td><input id="add2" name="add2" type="text"></td></tr>
+<tr><td> City: </td> <td><input id="city" name="city" type="text">*</td></tr>
+<tr><td> State: </td> <td><input id="state" name="state" type="text">*</td></tr>
+<tr><td> Zip Code/Postal Code: </td> <td><input id="zip" name="zip" type="text">*</td></tr>
+<tr><td> Country: </td> <td><input id="country" name="country" type="text">*</td></tr>
+<tr><td> Contact Number: </td> <td><input id="con_num" name="con_num" type="text"></td></tr>
+<tr><td colspan="2"></td></tr>
+</table>
+<br>
+<div align="center">
+ <script type="text/javascript"
+     src="http://www.google.com/recaptcha/api/challenge?k=6LcD1eQSAAAAAIzBuKQ0Vl8xUIyTj2s4YkhyLFVM">
+  </script>
+  <noscript>
+     <iframe src="http://www.google.com/recaptcha/api/noscript?k=6LcD1eQSAAAAAIzBuKQ0Vl8xUIyTj2s4YkhyLFVM"
+         height="300" width="500" frameborder="0"></iframe><br>
+     <textarea name="recaptcha_challenge_field" rows="3" cols="40">
+     </textarea>
+     <input type="hidden" name="recaptcha_response_field"
+         value="manual_challenge">
+  </noscript>
+
+<input type="submit" value="Submit">
+</div>
+
+</form>
+
+<script type="text/javascript">
+ var frmvalidator = new Validator("form1");
+ frmvalidator.addValidation("fname","req","Please enter your First Name");
+ frmvalidator.addValidation("lname","req","Please enter your last name");
+ frmvalidator.addValidation("email","req","Please enter valid email id");
+ frmvalidator.addValidation("email","email","Please enter valid email id");
+ frmvalidator.addValidation("add1","req","Please enter your address line1");
+ frmvalidator.addValidation("city","req","Please enter your city");
+ frmvalidator.addValidation("state","req","Please enter your state");
+ frmvalidator.addValidation("country","req","Please enter your country");
+ frmvalidator.addValidation("zip","req","Please enter your zip code");
+ frmvalidator.EnableMsgsTogether();
+
+</script>
+
+</body>
+</html>

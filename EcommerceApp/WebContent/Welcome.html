@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Products</title>
+<link href="css/site.css" rel="stylesheet"/>
+<script src="http://code.jquery.com/jquery-1.9.1.js"> </script>
+
+<script>	  
+
+$(document).ready(function () {
+	
+		var url = window.location.href;
+		var email = url.split('=')[1];
+		
+		$("#myprof").append('<a href="MyProfile.html?email='+email+'">My Profile</a>');
+		$("#myorders").append('<a href="MyOrders.html?email='+email+'">My Orders</a>');
+		
+	    $.ajax({
+	        type: "GET",
+	        url: "/EcommerceApp/REST/products",
+	        dataType: "xml",
+	        success: function(xml) {              
+	         addProducts(xml);  
+	         dummyAdd =xml;
+	        }   
+	    }); 
+	});
+		 
+	function addToCart(e){
+		customersTotal += parseFloat(jQuery(e).parent().parent().find(".price").eq(0).html());
+		customersItems++;
+		jQuery('#itemCount').html(customersItems);
+		console.log(customersTotal);
+	}
+	
+	function addProducts(xml){
+		//clears html
+		 $("#products").html('');
+			   
+		 $(xml).find('product').each(function(i){		   
+			 
+               var pName = $(this).find('productName').text();
+               var pId = $(this).find('productId').text();
+               var pDesc = $(this).find('productDesc').text();
+               var pCat = $(this).find('productCategory').text();
+               var price = $(this).find('price').text();
+               var weight = $(this).find('weight_lb').text();
+               var flprice = parseFloat(price);
+               var tax=parseFloat(flprice*0.09);              		            
+              	                		               	                
+               $("#products").append('<div class=\'product\'><div class=\'prodImg\'> <img width="100" height="100" src="http://localhost:8080/AdminApp/images/'+pId+'.jpg"></div>'+
+					 				 '<div> Name :'+pName+'</div>'+
+									 '<div> Category :'+pCat+'</div>'+
+					           		 '<div> Description : '+pDesc+'</div>'+
+					           		 '<div> Price : $<span class=\'price\'>'+price+'</div>'+
+					           		 '<div> Weight :'+weight+' lb</div>'+
+					           		'<script src="paypal-button-minicart.min.js?merchant=pray90@gmail.com"'+ 
+			 		                'data-button="cart"'+ 
+			 		                'data-name="'+pName+'"'+ 
+			 		                'data-amount="'+flprice+'"'+
+			 		                'data-currency="USD"'+ 
+			 		                'data-shipping="1"'+ 
+			 		                'data-tax="'+tax+'"'+ 
+			 		                'data-callback="http://localhost:8080/Checkout.html"'+ 
+			 		                'data-env="sandbox"'+
+			 		            	'>'+'<'+'/script>'+
+					           		 '</div>'          		 
+          							);               
+           						});	 
+				}
+	
+function addCart(pId,pName,pCat,price,weight){
+	var cart = window.sessionStorage;
+	cart.setItem('pId',pId);
+	cart.setItem('pName',pName);
+	cart.setItem('pCat',pCat);
+	cart.setItem('price',price);
+	cart.setItem('weight',weight);
+	window.location.replace("Cart.html");
+}
+</script>
+</head>
+
+<body>
+
+
+<div id="div" align="center"><a href="Welcome.html">Products Catalog</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<span id="myprof"></span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<span id="myorders"></span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<a href="LoginForm.html">Logout</a><br>
+<h3> Products Catalog  </h3>
+</div>
+
+<br>
+
+	<div class="productsContainer">		
+			<div id="products" class='clearfix'>
+			
+			</div>
+</div>
+
+<div align="center"><a href="javascript: addProducts(dummyAdd);"> Next </a></div>
+
+</body>
+</html>

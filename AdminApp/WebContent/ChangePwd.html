@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Change Password </title>
+<script src="http://code.jquery.com/jquery-2.0.3.js"> </script>
+
+<script>
+$("#chPwd").change(function() {
+	$("#hiddenDiv").show();
+	
+	})
+
+</script>
+</head>
+<body>
+<br> 
+<div align="center">
+<h4> Change Password ? &nbsp; <select id="chPwd"><option value="No" selected="selected">No</option><option value="Yes">Yes</option></select> </h4>
+<div style="display:none" id="hiddenDiv">
+<table id="pwdTable">
+<tr><td> Old Password: </td> <td><input id="password" name="password" type="password">*</td></tr>
+<tr><td> New Password: </td> <td><input id="newpassword" name="newpassword" type="password"></td></tr>
+<tr><td> Confirm New Password: </td> <td><input id="confimrPassword"name="confirmPassword" type="password"></td></tr>
+</table>
+</div>
+</div>
+</body>
+</html>

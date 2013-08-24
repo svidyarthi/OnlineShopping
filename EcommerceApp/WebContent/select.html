@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>change demo</title>
+  <style>
+  div {
+    color: red;
+  }
+  </style>
+  <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+</head>
+<body>
+ 
+<select name="sweets">
+  <option>Cake</option>
+  <option selected="selected">All</option>
+  <option>Flowers</option>
+</select>
+<div></div>
+ 
+<script>
+$( "select" )
+  .change(function () {
+    var str = "";
+    $( "select option:selected" ).each(function() {
+      str += $( this ).text();
+      
+    });
+    $( "div" ).text( str );
+  })
+  .change();
+</script>
+ 
+</body>
+</html>

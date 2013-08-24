@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Cart</title>
+</head>
+<script src="http://code.jquery.com/jquery-2.0.3.js"> </script>
+<script>	  
+
+$(document).ready(function () {
+	var cart = window.sessionStorage;
+	var id = cart.getItem('pId');
+	var name = cart.getItem('pName');
+	var categ = cart.getItem('pCat');
+	var price = cart.getItem('price');
+	var weight = cart.getItem('weight');
+	
+	   $('#cart').append('<tr> <td> <tr> <td colspan="2" align="center"> <img width="100" height="100" src="images/'+id+'.jpg"></td></tr>'+
+				 '<tr> <th>Name :</th> <td>'+name+'</td> </tr>'+
+				 '<tr> <th>Category :</th> <td>'+categ+'</td> </tr>'+
+        		 '<tr> <th>Quantity :</th> <td><select><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option></select></td></tr>'+
+        		 '<tr> <th>Price :</th> <td>$'+price+'</td></tr>'+
+        		 '<tr> <th>Weight :</th> <td>'+weight+'lb</td></tr>'+
+				 '</td> </tr> <br>');    
+}); 
+	
+</script>
+<body>
+<div id="div" align="center"><a href="Welcome.html">Products Catalog</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<a href="MyProfile.html">My Profile</a>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<a href="Orders.html">My Orders</a>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<a href="LoginForm.html">Logout</a><br>
+<h3> My Cart </h3>
+</div>
+<table id="cart">
+
+</table>
+<div id="pid"></div>
+<div id="total" align="center"><h3>Total Bill :</h3>
+<br/><br/>
+<input type="submit" value="Place Order">
+</div> 
+
+</body>
+</html>
