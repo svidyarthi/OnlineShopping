@@ -29,7 +29,7 @@ public class LoginService {
  @FormParam("password") String password) throws IOException 
 {
  String res=validateUser(email, password);
-
+System.out.println(res);
  if(res.contains("Logged in")){
 	/* HttpSession session = new HttpSession();
 	 session.setAttribute("email", email);*/
@@ -54,7 +54,10 @@ public String validateUser(String email, String password)
 			 if(user.getPassword().equals(password))
 			 	{
 				 //System.out.println(username);
-				 return "Logged in User:"+email+"\n Products coming shortly";				 
+				 if(user.getSystem_password()==1){
+					 return "Logged in User:"+email+" with password reset";
+				 }
+				 return "Logged in User:"+email;				 
 			 	}
 			 }
 	 }

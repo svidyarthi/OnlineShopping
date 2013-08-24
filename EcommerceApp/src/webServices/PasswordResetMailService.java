@@ -39,11 +39,20 @@ public class PasswordResetMailService {
 	        String email = prop.getProperty("email");
 	        String password = prop.getProperty("password");
 	        String serverHostUrl = prop.getProperty("hosturl");
-	        String[] arr = new String[4];
+	        String port = prop.getProperty("mailport");
+	        String subject = prop.getProperty("mailResetSubject");
+	        String mailResetBody1 = prop.getProperty("mailResetBody1");
+	        String mailResetBody2 = prop.getProperty("mailResetBody2");
+		       
+	        String[] arr = new String[7];
 	        arr[0] = email;
 	        arr[1] = password;
 	        arr[2] = host;
 	        arr[3] = serverHostUrl;
+	        arr[4] = port;
+	        arr[5] = subject;
+	        arr[6] = mailResetBody1;
+	        arr[7] = mailResetBody2;
 	        return arr;
 	    }
 	
@@ -57,13 +66,18 @@ public class PasswordResetMailService {
     String pass = gmailProps[1];
     String host = gmailProps[2];
     String serverHostUrl = gmailProps[3];
+    String port = gmailProps[4];
+    String subject = gmailProps[5];
+    String mailResetBody1 = gmailProps[6];
+    String mailResetBody2 = gmailProps[7];
+    
     Properties props = System.getProperties();
     
     props.put("mail.smtp.starttls.enable", "true"); 
     props.put("mail.smtp.host", host);
     props.put("mail.smtp.user", from);
     props.put("mail.smtp.password", pass);
-    props.put("mail.smtp.port", "587");
+    props.put("mail.smtp.port", port);
     props.put("mail.smtp.auth", "true");
 
     String[] to = {email}; 
@@ -88,8 +102,8 @@ public class PasswordResetMailService {
     
     for( int i=0; i < toAddress.length; i++) { 
 			message.addRecipient(Message.RecipientType.TO, toAddress[i]);
-			message.setSubject("Reset Password Link");
-			message.setText("Thanks for using Kukus Corner. Your new temporary password is "+temp+" \n Login again with this password on "+serverHostUrl+"/LoginForm.html");		
+			message.setSubject(subject);
+			message.setText(mailResetBody1+ " " + temp + mailResetBody2 +" "+ serverHostUrl+"/LoginForm.html");		
 		} 
    
     	 Transport transport = session.getTransport("smtp");

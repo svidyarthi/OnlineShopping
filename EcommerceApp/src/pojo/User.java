@@ -16,6 +16,7 @@ public class User {
 	    private String zip;
 	    private String contact_num;
 	    private String country;
+	    private int system_password;
 	    
 	    public String getEmail() {
 			return email;
@@ -103,5 +104,13 @@ public class User {
 
 		public void setCountry(String country) {
 			this.country = country;
+		}
+
+		public int getSystem_password() {
+			return system_password;
+		}
+
+		public void setSystem_password(int system_password) {
+			this.system_password = system_password;
 		}
 }

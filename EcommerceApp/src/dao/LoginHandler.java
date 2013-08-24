@@ -14,13 +14,14 @@
 			User user = new User();
 			try 
 			{
-				 String q ="SELECT email,password FROM user WHERE email='"+email+"'";
+				 String q ="SELECT email,password,system_password FROM user WHERE email='"+email+"'";
 				 PreparedStatement ps = connection.prepareStatement(q);
 				 ResultSet rs = ps.executeQuery();
 				 if (rs.next()) 
 				 {
 					 user.setEmail(rs.getString("email"));
 					 user.setPassword(rs.getString("password"));
+					 user.setSystem_password(rs.getInt("system_password"));
 				 }
 				 //System.out.println(userList);
 				 return user;

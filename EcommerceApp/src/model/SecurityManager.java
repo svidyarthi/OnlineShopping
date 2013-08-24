@@ -97,12 +97,12 @@ public class SecurityManager {
 			return productsList;
 	}
 
-	public Boolean updatePassword(String email, String password) throws Exception {
-		// TODO Auto-generated method stub
+	public Boolean updatePassword(String email, String password, int reset) throws Exception {
+		
 		Boolean result = false;
 		try {
 			ProfileHandler profileHandler= new ProfileHandler();
-			result = profileHandler.updatePassword(connection, email, password);
+			result = profileHandler.updatePassword(connection, email, password, reset);
 		
 			} catch (Exception e) {
 				throw e;

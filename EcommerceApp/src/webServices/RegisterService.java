@@ -44,6 +44,7 @@ public class RegisterService {
 			u.setZip(zip);
 			u.setCountry(country);
 			u.setContact_num(num);
+			u.setSystem_password(0);
 			SecurityManager securityManager= new SecurityManager();
 			
 			if(securityManager.storeUser(u)==false){

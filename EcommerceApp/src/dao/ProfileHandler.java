@@ -62,25 +62,24 @@ public class ProfileHandler {
 			//System.out.println(q);
 			 PreparedStatement ps = connection.prepareStatement(q);
 			 ps.executeUpdate();	
-			 result=true;
-        
-}
-catch (Exception e)
-{
-	System.out.println("Handler" + e);
-	throw e;
-}
-return result;		
+			 result=true;        
+		}
+		catch (Exception e)
+		{
+			System.out.println("Handler" + e);
+			throw e;
+		}
+		return result;		
 
 	}
 
 
-	public Boolean updatePassword(Connection connection, String email, String password) throws Exception{
+	public Boolean updatePassword(Connection connection, String email, String password, int reset) throws Exception{
 	
 		Boolean result = false;
 		try 
 		{
-			String q = "UPDATE user SET password='"+password+"' WHERE email = '"+email+"'";
+			String q = "UPDATE user SET password='"+password+"', system_password='"+reset+"' WHERE email = '"+email+"'";
 			PreparedStatement ps = connection.prepareStatement(q);
 			ps.executeUpdate();	
 			result=true;

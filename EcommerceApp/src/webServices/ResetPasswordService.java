@@ -13,7 +13,7 @@ import pojo.User;
 
 @Path("/resetPassword")
 
-public class PasswordService {
+public class ResetPasswordService {
 
 @Context HttpServletResponse servletResponse;
 	
@@ -23,18 +23,18 @@ public class PasswordService {
  public void resetPassword(@FormParam("email") String email) throws Exception 
 {
 try {
-	String res=validateUser(email);
+	Boolean res=validateUser(email);
 
-	if(res.contains("Valid User:"))
+	if(res==true)
 	{
 	/* HttpSession session = new HttpSession();
 	 session.setAttribute("email", email);*/
 	 
 		 PasswordResetMailService m = new PasswordResetMailService(); 
 		 String temp = m.sendMail(email);
-		 updatePassword(email, temp);
-	
+		 if(updatePassword(email, temp)==true){	
 		 servletResponse.sendRedirect("/EcommerceApp/LoginForm.html?reset=true");
+		 }
 	}
 	
  else{
@@ -49,11 +49,12 @@ catch(Exception e){
 private Boolean updatePassword(String email, String password) throws Exception{
 	Boolean result = false;
 	SecurityManager securityManager= new SecurityManager();
-	result = securityManager.updatePassword(email,password);
+	result = securityManager.updatePassword(email,password,1);
 	return result;
 }
 
-private String validateUser(String email) {
+private Boolean validateUser(String email) {
+	Boolean result=false;
 	 try
 	 {
 		 User user = new User();
@@ -62,13 +63,17 @@ private String validateUser(String email) {
 	
 			 if(user.getEmail().equals(email))
 			 {
-				 return "Valid User:"+email;				 		 	
+				 result=true;				 		 	
+			 }
+			 else
+			 {
+				 result=false;
 			 }
 	 }
 	 catch (Exception e) {
 		 e.printStackTrace();
-	 }	 
-	 return "You are not a Valid User";
+	 }	 	
+	 return result;
 }
 
 }

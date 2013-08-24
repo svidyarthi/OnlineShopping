@@ -53,7 +53,7 @@ $(document).ready(function () {
      <input type="hidden" name="recaptcha_response_field"
          value="manual_challenge">
   </noscript>
-
+<br>
 <input type="submit" value="Submit">
 </div>
 
@@ -66,7 +66,7 @@ $(document).ready(function () {
  frmvalidator.addValidation("lname","req","Please enter your last name");
  frmvalidator.addValidation("emailid","req","Please enter valid email id");
  frmvalidator.addValidation("emailid","email","Please enter valid email id");
- frmvalidator.addValidation("password","minlen=4","Please enter password with minimum 4 characters");
+ frmvalidator.addValidation("password","minlen=6","Please enter password with minimum 6 characters");
  frmvalidator.addValidation("password","eqelmnt=confirmPassword","The confirmed password is not same as password");
  frmvalidator.addValidation("add1","req","Please enter your address line1");
  frmvalidator.addValidation("city","req","Please enter your city");
