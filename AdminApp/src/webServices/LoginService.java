@@ -28,9 +28,9 @@ public class LoginService {
  public void login(@FormParam("email") String email,
  @FormParam("password") String password) throws IOException 
 {
- String res=validateUser(email, password);
+ Boolean res=validateUser(email, password);
 
- if(res.contains("Logged in")){
+ if(res==true){
 	 servletResponse.sendRedirect("/AdminApp/Welcome.html?email="+email);
  }
  else{
@@ -39,7 +39,7 @@ public class LoginService {
 
 }
  
-public String validateUser(String email, String password)
+public Boolean validateUser(String email, String password)
  {
 	 try
 	 {
@@ -52,18 +52,16 @@ public String validateUser(String email, String password)
 			 if(admin.getPassword().equals(password))
 			 	{
 				 //System.out.println(username);
-				 return "Logged in User:"+email+"\n Products coming shortly";
-				 
+				 return true;				 
 			 	}
 			 }
- 
 	 }
 	 catch (Exception e) {
 		 e.printStackTrace();
 		  //System.out.println("login validation error");
 	 }
 	 
-	 return "You are not a Valid User";
+	 return false;
  }
 
 }

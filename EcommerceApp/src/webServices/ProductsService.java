@@ -7,28 +7,13 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-
-import com.sun.jersey.api.JResponse;
+import javax.ws.rs.PathParam;
 
 import model.SecurityManager;
 import pojo.Product;
 
 @Path("/products")
 public class ProductsService {
-
-	@GET
-	@Produces(MediaType.TEXT_XML)
-	public List<Product> getProductsOnBrowser() {
-		List<Product> products = new ArrayList<Product>();
-		 SecurityManager securityManager= new SecurityManager();
-		 try {
-			products = securityManager.getAllProductsList();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return products;
-	}
 	
 	@GET
 	@Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
@@ -44,18 +29,39 @@ public class ProductsService {
 		return products;
 	}
 
-	@Path("category")
 	@GET
-	@Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-	public List<Product> getProductsByCategory(String category) {
+	@Produces(MediaType.TEXT_XML)
+	public List<Product> getProductsOnBrowser() {
 		List<Product> products = new ArrayList<Product>();
 		 SecurityManager securityManager= new SecurityManager();
 		 try {
-			products = securityManager.getProductsListByCategory(category);
+			products = securityManager.getAllProductsList();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return products;
 	}
+	
+	@Path("/{category}")
+	@GET
+	@Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+	public List<Product> getProductsByCategory(@PathParam("category") String category) {
+	
+		List<Product> products = new ArrayList<Product>();
+		 SecurityManager securityManager= new SecurityManager();
+		 try {
+			 if(category.equals("All")){
+				 products = securityManager.getAllProductsList(); 
+			 }
+			 else {
+			products = securityManager.getProductsListByCategory(category);
+			 }
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return products;
+	}
+	
 }

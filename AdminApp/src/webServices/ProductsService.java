@@ -15,6 +15,7 @@ import pojo.Product;
 @Path("/products")
 public class ProductsService {
 
+	//display xml file on browser
 	@GET
 	@Produces(MediaType.TEXT_XML)
 	public List<Product> getProductsOnBrowser() {
@@ -29,6 +30,7 @@ public class ProductsService {
 		return products;
 	}
 	
+	// xml for rest call
 	@GET
 	@Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
 	public List<Product> getProducts() {
@@ -59,4 +61,24 @@ public class ProductsService {
 		return product;
 	}
 	
+	@Path("/{pId}/{category}")
+	@GET
+	@Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+	public List<Product> getProductsByCategory(@PathParam("category") String category) {
+	
+		List<Product> products = new ArrayList<Product>();
+		 SecurityManager securityManager= new SecurityManager();
+		 try {
+			 if(category.equals("All")){
+				 products = securityManager.getAllProductsList(); 
+			 }
+			 else {
+			products = securityManager.getProductsListByCategory(category);
+			 }
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return products;
+	}
 }

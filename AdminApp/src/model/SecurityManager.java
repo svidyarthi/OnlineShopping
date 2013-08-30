@@ -2,10 +2,10 @@ package model;
 
 import java.sql.Connection;
 import java.util.ArrayList;
+import java.util.List;
 
 import pojo.Product;
 import pojo.Admin;
-
 import dao.DbConnection;
 import dao.LoginHandler;
 import dao.ProductsHandler;
@@ -114,6 +114,31 @@ public class SecurityManager {
 		try {
 			ProfileHandler profileHandler= new ProfileHandler();
 			result = profileHandler.updateProfile(connection, a);
+		
+			} catch (Exception e) {
+				throw e;
+				}
+			return result;
+	}
+
+	public List<Product> getProductsListByCategory(String category) throws Exception {
+		ArrayList<Product> productsList = null;
+		try {
+			ProductsHandler productsHandler= new ProductsHandler();
+			productsList = productsHandler.getProductsByCategory(connection, category);
+		
+			} catch (Exception e) {
+				throw e;
+				}
+			return productsList;
+	}
+	
+	public Boolean updatePassword(String email, String password, int reset) throws Exception {
+		
+		Boolean result = false;
+		try {
+			ProfileHandler profileHandler= new ProfileHandler();
+			result = profileHandler.updatePassword(connection, email, password, reset);
 		
 			} catch (Exception e) {
 				throw e;

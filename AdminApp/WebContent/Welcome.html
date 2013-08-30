@@ -4,31 +4,40 @@
 <meta charset="ISO-8859-1">
 <title>Products</title>
 <link href="css/site.css" rel="stylesheet"/>
-<script src="http://code.jquery.com/jquery-2.0.3.js"> </script>
+<script src="http://code.jquery.com/jquery-1.9.1.js"> </script>
+<script src="jquery.cookie.js"></script>
 <script>	  
 
 $(document).ready(function () {
 	
 	var url = window.location.href;
 	var email = url.split('=')[1];
-	
-	$("#myprof").append('<a href="MyProfile.html?email='+email+'">My Profile</a>');
-	
-	    $.ajax({
-	        type: "GET",
-	        url: "/AdminApp/REST/products",
-	        dataType: "xml",
-	        success: function(xml) {              
-		         addProducts(xml);  
-		         dummyAdd =xml;
-		        }   
-		    }); 
-		});
-		
-		function addProducts(xml){
-			
+	$.cookie("email",email);
+	restCall("All");   
+});
+
+function restCall(category){
+	$.ajax({
+	    type: "GET",
+	    url: "/AdminApp/REST/products/0/"+category,
+	    dataType: "xml",
+	    success: function(xml) {  
+	    	if(category=="All"){
+	    		addProducts(xml,true);  
+			     dummyAdd =xml;
+	    	}
+	    	else {
+	    		addProducts(xml,false);  
+			     dummyAdd =xml;
+	    	}
+	     
+	    }   
+	});
+}
+		function addProducts(xml,allcateg){
 			//clears html
 			 $("#products").html('');
+			
 			// $("#products").fadeOut();
 			   $(xml).find('product').each(function(i){
 	               var pName = $(this).find('productName').text();
@@ -39,8 +48,10 @@ $(document).ready(function () {
 	               var weight = $(this).find('weight_lb').text();
 	               var flprice = parseFloat(price);
 	               var tax=parseFloat(flprice*0.09);              		            
-	              	                		               	                
-	               $("#products").append('<div class=\'product\'><div class=\'prodImg\'> <img width="100" height="100" src="images/'+pId+'.jpg"></div>'+
+	              
+	               if(allcateg==true){
+	            	   //display category in the products
+	               $("#products").append('<div class=\'product\'><div class=\'prodImg\'> <img width="100" height="100" src="/images/'+pId+'.jpg"></div>'+
 						 				 '<div> Name :'+pName+'</div>'+
 										 '<div> Category :'+pCat+'</div>'+
 						           		 '<div> Description : '+pDesc+'</div>'+
@@ -49,7 +60,21 @@ $(document).ready(function () {
 						           		 '<div><button type="button" onclick="window.location = \'EditProduct.html?pId='+pId+'\';"> Edit </button>'+
 						           		 '&nbsp; <button type="button" onclick="window.location = \'DeleteProduct.html?pId='+pId+'\';"> Delete </button></div>'+
 						           		 '</div>'          		 
-	          );
+	          		);
+	               }
+	               
+	               else{
+	            	   //hide category from the products
+	            	   $("#products").append('<div class=\'product\'><div class=\'prodImg\'> <img width="100" height="100" src="/images/'+pId+'.jpg"></div>'+
+				 				 '<div> Name :'+pName+'</div>'+
+				           		 '<div> Description :'+pDesc+'</div>'+
+				           		 '<div> Price : $<span class=\'price\'>'+price+'</div>'+
+				           		 '<div> Weight :'+weight+' lb</div>'+
+				           		 '<div><button type="button" onclick="window.location = \'EditProduct.html?pId='+pId+'\';"> Edit </button>'+
+				           		 '&nbsp; <button type="button" onclick="window.location = \'DeleteProduct.html?pId='+pId+'\';"> Delete </button></div>'+
+				           		 '</div>'          		 
+    		);
+	               }
 	             //  $("#products").fadeIn();
 	           });	
 		}
@@ -57,24 +82,43 @@ $(document).ready(function () {
 </script>
 </head>
 <body>
-<div id="div" align="center"><a href="Welcome.html">Products Catalog</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<div id="div" align="center"><a href="Welcome.html">Products Catalog</a>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 <a href="AddProduct.html">Add Product</a>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-<span id="myprof"></span>
+<a href="MyProfile.html">My Profile</a>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 <a href="Orders.html">All Orders</a>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 <a href="LoginForm.html">Logout</a><br>
 <h3> Products Catalog  </h3>
-</div>
 
+Search Filter by :	
+			<select id="category">
+			<option selected>All</option>
+			<option>Cake</option>
+			<option>Flowers</option>
+			<option>Accessories</option>
+		</select>
+</div>
+<br>
 	<div class="productsContainer">		
 			<div id="products" class='clearfix'>
 			
 			</div>
 </div>
 
-<div align="center"><a href="javascript: addProducts(dummyAdd);"> Next </a></div>
+<script>
+			function updateCatalog() {
+				var categ = $("#category option:selected").val();				
+				restCall(categ);
+			}	
 
+			$("#category").change(function() {
+				updateCatalog();
+			});
+</script>
+
+<div align="center"><a href="javascript: addProducts(dummyAdd);"> Next </a></div>
 </body>
 </html>

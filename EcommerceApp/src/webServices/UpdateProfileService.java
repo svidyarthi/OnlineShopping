@@ -45,10 +45,10 @@ a.setContact_num(num);
 SecurityManager securityManager= new SecurityManager();
 
 if(securityManager.updateProfile(a)==false){
-	servletResponse.sendRedirect("/EcommerceApp/MyProfile.html?email="+email+"&result=false");
+	servletResponse.sendRedirect("/EcommerceApp/MyProfile.html?result=false");
 }
 else{
-servletResponse.sendRedirect("/EcommerceApp/MyProfile.html?email="+email+"&result=true");
+servletResponse.sendRedirect("/EcommerceApp/MyProfile.html?result=true");
 }
 
 } catch (Exception e) {

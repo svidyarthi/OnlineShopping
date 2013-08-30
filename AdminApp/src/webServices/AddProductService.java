@@ -49,7 +49,7 @@ public class AddProductService {
 				}
 				else{
 				
-				String uploadedFileLocation = System.getProperty("catalina.base")+"\\wtpwebapps\\AdminApp\\images\\"+pid+".jpg";
+				String uploadedFileLocation = System.getProperty("catalina.base")+"\\kukus\\images\\"+pid+".jpg";
 				 
 				// save it
 				writeToFile(uploadedInputStream, uploadedFileLocation);

@@ -72,7 +72,7 @@ public class ProductsHandler {
 		ArrayList<Product> productsList = new ArrayList<Product>();
 		try 
 		{
-			 PreparedStatement ps = connection.prepareStatement("SELECT * FROM products WHERE productCategory =" + category);
+			 PreparedStatement ps = connection.prepareStatement("SELECT * FROM products WHERE productCategory ='" + category + "'");
 			 ResultSet rs = ps.executeQuery();
 			 while (rs.next()) 
 			 {

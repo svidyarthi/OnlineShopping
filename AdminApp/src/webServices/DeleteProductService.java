@@ -35,6 +35,8 @@ public class DeleteProductService {
 	
 	int result= securityManager.deleteProduct(pId);
 	
+	//delete image ??
+	
 	if(result==0){
 		servletResponse.sendRedirect("/AdminApp/EditProduct.html?result=false");
 	}

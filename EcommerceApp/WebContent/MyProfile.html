@@ -5,6 +5,7 @@
 <title>My Profile</title>
 <script src="http://code.jquery.com/jquery-2.0.3.js"> </script>
 <script src="gen_validatorv4.js" type="text/javascript"></script>
+<script src="jquery.cookie.js"></script>
 <script type="text/javascript">
  var RecaptchaOptions = {
     theme : 'clean'
@@ -13,17 +14,7 @@
 <script>	  
 $(document).ready(function () {
 		
-	var url = window.location.href;
-	var email = url.split('email=')[1].split("&")[0];
-	$("#email").val(email);
-	
-	var result = url.split('&result=')[1];
-	if(result == "true"){
-		$("#message").html("<h4> Profile updated successfully </h4>");
-	}
-	else if (result == "false"){
-		$("#message").html("<h4> Error in updating profile. Try again </h4>");
-	}	
+	var email = $.cookie('email'); 	
 		
 	    $.ajax({
 	        type: "GET",
@@ -32,6 +23,7 @@ $(document).ready(function () {
 	        success: function(xml) {  
 	        	
 	        	$(xml).find('user').each(function(i){
+	        		$("#email").val(email);
 	        		var fname = $(this).find('fname').text();    		            
 	                $("#fname").val(fname); 
 	                var lname = $(this).find('lname').text();    		            
@@ -53,6 +45,15 @@ $(document).ready(function () {
 	        	});        		
 	        }   
 	    }); 
+	    
+	    var result = url.split('result=')[1];
+		if(result === "true"){
+			$("#message").html("<h4> Profile updated successfully </h4>");
+		}
+		else if (result === "false"){
+			$("#message").html("<h4> Error in updating profile. Try again </h4>");
+		}
+	    
 	});
 </script>
 </head>

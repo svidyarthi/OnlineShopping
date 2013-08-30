@@ -11,6 +11,8 @@ $(document).ready(function () {
 	var url = window.location.href;
 	if(url.indexOf('?' + field + '=') != -1)
 		$("#msg").append('<p>Invalid email and/or password. Please Login Again </p>');
+	if(url.indexOf('?reset=true') != -1)
+		$("#msg").append('<p> A mail with temporary password has been sent. Please check your mail and login </p>');
 });
 </script>
 </head>
@@ -26,6 +28,8 @@ $(document).ready(function () {
 <br>
 <input type="submit" value="Submit"><br><br>
  </form>
+ 
+ 	<a href="ResetPassword.html">Forgot Password ?</a> &nbsp; &nbsp; &nbsp; <a href="ChangePassword.html">Change Password ?</a>
  </div>
 
 <script type="text/javascript">
@@ -33,7 +37,7 @@ $(document).ready(function () {
  frmvalidator.addValidation("password","req", "Please enter password");
  frmvalidator.addValidation("email","req","Please enter valid email id");
  frmvalidator.addValidation("email","email","Please enter valid email id");
- frmvalidator.addValidation("password","minlen=4","Please enter password with minimum 4 characters");
+ frmvalidator.addValidation("password","minlen=6","Please enter password with minimum 6 characters");
  frmvalidator.EnableMsgsTogether();
 </script>
 

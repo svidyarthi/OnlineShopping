@@ -71,5 +71,23 @@ catch (Exception e)
 return result;		
 
 }
+	public Boolean updatePassword(Connection connection, String email, String password, int reset) throws Exception{
+		
+		Boolean result = false;
+		try 
+		{
+			String q = "UPDATE admin SET password='"+password+"', system_password='"+reset+"' WHERE email = '"+email+"'";
+			PreparedStatement ps = connection.prepareStatement(q);
+			ps.executeUpdate();	
+			result=true;
+		        
+		}
+		catch (Exception e)
+		{
+			System.out.println("Handler" + e);
+			throw e;
+		}
+		return result;		
+	}
 
 }

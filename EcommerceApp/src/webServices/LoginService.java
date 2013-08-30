@@ -1,10 +1,9 @@
 package webServices;
  
 import java.io.IOException;
-import java.util.ArrayList;
 
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+
 import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.POST;
@@ -29,10 +28,8 @@ public class LoginService {
  @FormParam("password") String password) throws IOException 
 {
  String res=validateUser(email, password);
-System.out.println(res);
+//System.out.println(res);
  if(res.contains("Logged in")){
-	/* HttpSession session = new HttpSession();
-	 session.setAttribute("email", email);*/
 	 servletResponse.sendRedirect("/EcommerceApp/Welcome.html?email="+email);
  }
  else{
@@ -53,11 +50,13 @@ public String validateUser(String email, String password)
 			 {
 			 if(user.getPassword().equals(password))
 			 	{
-				 //System.out.println(username);
-				 if(user.getSystem_password()==1){
-					 return "Logged in User:"+email+" with password reset";
-				 }
-				 return "Logged in User:"+email;				 
+					
+					 if(user.getSystem_password()==1){
+						 return "Logged in User:"+email+" with password reset";
+					 }
+					 else{
+					 return "Logged in User:"+email;
+					 }
 			 	}
 			 }
 	 }
