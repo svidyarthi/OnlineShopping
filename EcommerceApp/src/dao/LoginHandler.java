@@ -61,8 +61,8 @@
 		            	result = false;
 		            } else {
 		                // user does not exist
-		            	String q = "INSERT INTO user VALUES('"+email+"','"+pwd+"','"+fname+"','"+lname+"','"+add1+"','"+add2+"','"+city+"','"+state+"','"+zip+"','"+num+"','"+country+"')";
-						//System.out.println(q);
+		            	String q = "INSERT INTO user VALUES('"+email+"','"+pwd+"','"+fname+"','"+lname+"','"+add1+"','"+add2+"','"+city+"','"+state+"','"+zip+"','"+num+"','"+country+"','0')";
+						System.out.println(q);
 						 PreparedStatement ps = c.prepareStatement(q);
 						 ps.executeUpdate();
 						 result = true;

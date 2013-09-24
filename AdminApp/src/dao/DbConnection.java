@@ -12,7 +12,7 @@ public class DbConnection {
 		 String connectionURL = "jdbc:mysql://localhost:3306/ecommerce";
 		 Connection connection = null;
 		 Class.forName("com.mysql.jdbc.Driver").newInstance();
-		 connection = DriverManager.getConnection(connectionURL, "root", "admin");
+		 connection = DriverManager.getConnection(connectionURL, "root", "root");
 		 //System.out.println("mysql connection successful");
 		 return connection;
 	 	}
